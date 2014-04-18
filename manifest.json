@@ -1,0 +1,13 @@
+{
+  "manifest_version": 2,
+
+  "name": "Lite Offline mp3 Player",
+  "description": "This is a sample PLayer.",
+  "version": "0.0",
+
+  "permissions": [ "background", "tts", "file://*" ],
+  "browser_action": {
+    "default_icon": "res/images/icon.png",
+    "default_popup": "index.html"
+  }
+}
