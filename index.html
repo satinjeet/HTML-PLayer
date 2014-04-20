@@ -4,10 +4,45 @@
             width: 150px;
             height: 300px;
         }
+
+        li {
+        	list-style-type: none;
+        	width: 200px;
+        	height: 15px;
+        	overflow: hidden;
+        	font-size: 15px;
+        	border: 1px solid;
+        	cursor: pointer;
+        	background: oldlace;
+        	padding: 3px;
+        	border-radius: 3px;
+        	margin: 3px 0px;
+        	box-shadow: 2px 2px 2px rgba(0,0,0,0.7);
+        }
+
+        li:hover {
+        	background: cornsilk;
+        }
+        #inputFiles {
+            border: 1px solid black;
+            border-radius: 10px;
+            background: cornflowerblue;
+            height: 30px;
+            box-shadow: 15px 15px 15px rgba(0,0,0,0.5) inset;
+        }
     </style>
-    <script src="js/sound.js"></script>
-    <script src="js/script.js"></script>
 </head>
 <body>
+<span id="events"></span>
+<button id="fb">&#8882;&#8882;</button>
+<button id="ff">&#8883;&#8883;</button>
+<!-- ›‹⊳⊲ -->
+<button id="inputFiles">Add Songs</button>
+<input id="addSong" type="file" multiple hidden>
+<ul id="songsList"></ul>
+
+<!-- Code To Play Song -->
+<script src="js/jquery-1.10.js"></script>
+<script src="js/script.js"></script>
 
 </body>
