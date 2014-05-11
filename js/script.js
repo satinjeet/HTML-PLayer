@@ -15,6 +15,8 @@ MySound = (function() {
 
   MySound.prototype.isPlaying = false;
 
+  MySound.prototype.current = null;
+
   function MySound() {
     this.stop = __bind(this.stop, this);
     this.play = __bind(this.play, this);
@@ -24,12 +26,24 @@ MySound = (function() {
     this.render = __bind(this.render, this);
     this.addToList = __bind(this.addToList, this);
     this.addSong = __bind(this.addSong, this);
+    this.move = __bind(this.move, this);
+    this.setUpProgress = __bind(this.setUpProgress, this);
     $("button").on("click", this.handle);
     $("input#addSong").on("change", this.addSong);
     $(document).on("click", "li.songs", this.play);
     $("#events").on("render", this.render);
     this.reader.onload = this.addToList;
+    this.audioPlayer.addEventListener('loadedmetadata', this.setUpProgress);
+    this.audioPlayer.addEventListener('timeupdate', this.move);
   }
+
+  MySound.prototype.setUpProgress = function() {
+    return $("#pg").attr("max", this.audioPlayer.duration);
+  };
+
+  MySound.prototype.move = function() {
+    return $("#pg").attr("value", this.audioPlayer.currentTime);
+  };
 
   MySound.prototype.addSong = function(e) {
     var files, i, lim;
@@ -62,7 +76,7 @@ MySound = (function() {
     _results = [];
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       song = _ref[_i];
-      _results.push($("#songsList").append("<li class='songs' id='sng-" + _i + "'>" + song + "</li>"));
+      _results.push($("#songsList").append("<li class='songs' id='sng-" + _i + "'> <marquee scrollamount='3'>" + song + "</marquee> </li>"));
     }
     return _results;
   };
@@ -75,6 +89,12 @@ MySound = (function() {
         return this.ff();
       case "fb":
         return this.fb();
+      case "play":
+        return this.play(e);
+      case "pause":
+        return this.play(e);
+      case "stop":
+        return this.stop(e);
       case "inputFiles":
         return $("input#addSong").trigger("click");
     }
@@ -97,8 +117,15 @@ MySound = (function() {
   MySound.prototype.play = function(e) {
     var id, reg;
     reg = /sng-([0-9]*)/;
-    id = reg.exec(e.currentTarget.id)[1];
-    this.audioPlayer.src = this.songs[id];
+    if (this.current === null || e.currentTarget.id === "play") {
+      this.current = "sng-0";
+    } else {
+      this.current = e.currentTarget.id;
+    }
+    if (reg.test(this.current)) {
+      id = reg.exec(this.current)[1];
+      this.audioPlayer.src = this.songs[id];
+    }
     this.audioPlayer.play();
     return this.isPlaying = true;
   };

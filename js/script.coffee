@@ -5,12 +5,21 @@ class MySound
     reader: new FileReader
     audioPlayer: new Audio
     isPlaying: false
+    current: null
     constructor: ->
         $("button").on "click", @handle
         $("input#addSong").on "change", @addSong
         $(document).on "click","li.songs", @play
         $("#events").on "render", @render
         @reader.onload = @addToList
+        @audioPlayer.addEventListener 'loadedmetadata', @setUpProgress
+        @audioPlayer.addEventListener 'timeupdate', @move
+
+    setUpProgress: =>
+        $("#pg").attr "max", @audioPlayer.duration
+
+    move: =>
+        $("#pg").attr "value", @audioPlayer.currentTime
 
     addSong: (e)=>
         files = e.currentTarget.files
@@ -32,13 +41,18 @@ class MySound
 
     render: (event)=>
         $("#songsList").html ""
-        $("#songsList").append "<li class='songs' id='sng-#{_i}'>#{song}</li>" for song in @indexes
+        $("#songsList").append "<li class='songs' id='sng-#{_i}'>
+            <marquee scrollamount='3'>#{song}</marquee>
+        </li>" for song in @indexes
 
     handle: (e)=>
         id = $(e.currentTarget).attr "id"
         switch id
             when "ff" then @ff()
             when "fb" then @fb()
+            when "play" then @play(e)
+            when "pause" then @play(e)
+            when "stop" then @stop(e)
             when "inputFiles" then $("input#addSong").trigger "click"
 
     ff: =>
@@ -53,8 +67,14 @@ class MySound
 
     play: (e)=>
         reg = /sng-([0-9]*)/
-        id = reg.exec(e.currentTarget.id)[1]
-        @audioPlayer.src = @songs[id]
+        if @current is null or e.currentTarget.id is "play"
+            @current = "sng-0"
+        else
+            @current = e.currentTarget.id
+        if reg.test @current
+          id = reg.exec(@current)[1]
+          @audioPlayer.src = @songs[id]
+
         @audioPlayer.play()
         @isPlaying = true
         

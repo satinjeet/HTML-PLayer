@@ -1,5 +1,12 @@
 <head>
     <style>
+        @-webkit-keyframes animate-stripes {
+           100% { background-position: -100px 0px; }
+        }
+
+        @keyframes animate-stripes {
+           100% { background-position: -100px 0px; }
+        }
         body {
             width: 150px;
             height: 300px;
@@ -23,26 +30,78 @@
         li:hover {
         	background: cornsilk;
         }
+
         #inputFiles {
-            border: 1px solid black;
-            border-radius: 10px;
-            background: cornflowerblue;
-            height: 30px;
-            box-shadow: 15px 15px 15px rgba(0,0,0,0.5) inset;
+            float: right;
         }
+
+        .button {
+
+        }
+
+        progress#pg[value] {
+          /* Reset the default appearance */
+          -webkit-appearance: none !important; 
+           appearance: none;
+
+          width: 350px;
+          height: 7px;
+        }
+
+        progress#pg[value]::-webkit-progress-bar {
+          background-color: #eee;
+          border-radius: 2px;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+        }
+
+        progress#pg[value]::-webkit-progress-value {
+          background-image:
+               -webkit-linear-gradient(-45deg, 
+                                       transparent 33%, rgba(0, 0, 0, .1) 33%, 
+                                       rgba(0,0, 0, .1) 66%, transparent 66%),
+               -webkit-linear-gradient(top, 
+                                       rgba(255, 255, 255, .25), 
+                                       rgba(0, 0, 0, .25)),
+               -webkit-linear-gradient(left, #09c, #f44);
+
+            border-radius: 2px; 
+            background-size: 35px 20px, 100% 100%, 100% 100%;
+            -webkit-animation: animate-stripes 5s linear infinite;
+          animation: animate-stripes 5s linear infinite;
+        }
+
+        #frame {
+            position: relative;
+            margin-left: 200px;
+            padding: 10px;
+            border: 1px solid;
+            width: 350px;
+            border-radius: 10px;
+            box-shadow: 3px 3px 2px rgba(0,20,20,0.75);
+            background-color: lavender;
+        }
+
     </style>
 </head>
 <body>
-<span id="events"></span>
-<button id="fb">&#8882;&#8882;</button>
-<button id="ff">&#8883;&#8883;</button>
-<!-- ›‹⊳⊲ -->
-<button id="inputFiles">Add Songs</button>
-<input id="addSong" type="file" multiple hidden>
-<ul id="songsList"></ul>
+    <div id="frame">
+        <span id="events"></span>
+        <button id="fb">&#8882;&#8882;</button>
+        <button id="play">&#8883;</button>
+        <button id="pause">||</button>
+        <button id="stop">Stop</button>
+        <button id="ff">&#8883;&#8883;</button>
+        <!-- ›‹⊳⊲ -->
+        <button id="inputFiles">Add Songs</button>
+        <input id="addSong" type="file" multiple hidden>
+        <br><br>
+        <progress id="pg" max="100" value="0"></progress>
+        <br>
+        <ul id="songsList"></ul>
+    </div>
 
-<!-- Code To Play Song -->
-<script src="js/jquery-1.10.js"></script>
-<script src="js/script.js"></script>
+    <!-- Code To Play Song -->
+    <script src="js/jquery-1.10.js"></script>
+    <script src="js/script.js"></script>
 
 </body>
