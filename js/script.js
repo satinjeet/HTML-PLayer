@@ -18,7 +18,7 @@ MySound = (function() {
   MySound.prototype.current = null;
 
   function MySound() {
-    this.stop = __bind(this.stop, this);
+    this.pause = __bind(this.pause, this);
     this.play = __bind(this.play, this);
     this.fb = __bind(this.fb, this);
     this.ff = __bind(this.ff, this);
@@ -92,9 +92,7 @@ MySound = (function() {
       case "play":
         return this.play(e);
       case "pause":
-        return this.play(e);
-      case "stop":
-        return this.stop(e);
+        return this.pause(e);
       case "inputFiles":
         return $("input#addSong").trigger("click");
     }
@@ -130,8 +128,8 @@ MySound = (function() {
     return this.isPlaying = true;
   };
 
-  MySound.prototype.stop = function() {
-    this.audioPlayer.stop();
+  MySound.prototype.pause = function() {
+    this.audioPlayer.pause();
     return this.isPlaying = false;
   };
 

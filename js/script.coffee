@@ -51,8 +51,7 @@ class MySound
             when "ff" then @ff()
             when "fb" then @fb()
             when "play" then @play(e)
-            when "pause" then @play(e)
-            when "stop" then @stop(e)
+            when "pause" then @pause(e)
             when "inputFiles" then $("input#addSong").trigger "click"
 
     ff: =>
@@ -78,8 +77,8 @@ class MySound
         @audioPlayer.play()
         @isPlaying = true
         
-    stop: =>
-        @audioPlayer.stop()
+    pause: =>
+        @audioPlayer.pause()
         @isPlaying = false
 
 s = new MySound()
